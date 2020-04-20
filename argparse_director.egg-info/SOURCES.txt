@@ -1,4 +1,5 @@
 README.md
+argparse_director.py
 setup.py
 argparse_director.egg-info/PKG-INFO
 argparse_director.egg-info/SOURCES.txt
