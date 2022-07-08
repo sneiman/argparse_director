@@ -289,7 +289,7 @@ class ArgParseDirector(ArgumentParser):
     # generates a config file
     # generates a valid configuration file named by argument fname
     # will contain all arguments added with add_argument(). those with group names will also be added to group lists.
-    def gen_config_file(self , fname, prefix='    '):
+    def gen_config_file(self , fname, prefix='    ', tablen=4):
 
         # if anything in the default dictionary built be add_argument()
         #   if fname exists, warn user
@@ -302,7 +302,9 @@ class ArgParseDirector(ArgumentParser):
             # get longest key so config file can be easy to read
             # open file
             #   write preamble and entries for each dictionary
-            maxlen                 = rec_key_len(self.__def_dict, len(prefix)) + 2 # add length of quotes around key strings
+            maxlen                  = rec_key_len(self.__def_dict, len(prefix)) + 4     # len of key string
+            keylen                  = maxlen+4                                          # maxlen + len of quotes, colon, and 1 trailing space
+            keylen                  = keylen if keylen%tablen==0 else keylen+(tablen-(keylen%tablen))
             with open(fname, 'w') as config_file:
                 config_file.write(f"# ArgParseDirector configuration file '{fname}': original generated {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 config_file.write(f"# '{fname}' may be edited to:\n#\tadd/change entries and values in config_args,\n#\tadd/change group names and keys in config_groups,\n#\tchange values for positional args in config_required\n#\tor add python code as needed")
@@ -311,9 +313,14 @@ class ArgParseDirector(ArgumentParser):
                 config_file.write(f"# change values to override defaults, add keys to create arguments that will be returned from parse_args() but not available from command line\n")
                 config_file.write("# do not change dictionary name 'config_args'\n")
                 config_file.write("config_args = {\n")
+
+                # generate history prolog
+                config_file.write(f"{prefix}\'{'net_history'}\': {' '*(keylen-len('net_history')-len(prefix))}\'\',\n")
+                config_file.write(f"{prefix}\'{'net_desc'}\': {' '*(keylen-len('net_desc')-len(prefix))}\'00:  \\n\',\n\n")
+                
                 for k in self.__def_dict:
                     v               = f"\'{self.__def_dict[k]}\'" if type(self.__def_dict[k])==str else None if type(self.__def_dict[k]) is type(None) else self.__def_dict[k]
-                    config_file.write(f"{prefix}\'{k}\' : {' '*(maxlen-len(k)-len(prefix))}{v},\n")
+                    config_file.write(f"{prefix}\'{k}\': {' '*(keylen-len(k)-len(prefix))}{v},\n")
                 config_file.write("}\n")
 
                 config_file.write(f"\n# config_groups: from all args added with add_argument() call that includes 'arg_group = 'some_group_name' or ('group1', 'group2')\n")
@@ -321,7 +328,7 @@ class ArgParseDirector(ArgumentParser):
                 config_file.write("# do not change dictionary name 'config_groups'\n")
                 config_file.write("config_groups = {\n")
                 for k in self.__group_names_l:
-                    config_file.write(f"{prefix}\'{k}\' : [\n")
+                    config_file.write(f"{prefix}\'{k}\': [\n")
                     for n in self.__dict__[k]:
                         config_file.write(f"{prefix*2}\'{n}\',\n")
                     config_file.write(f"{prefix}],\n")
@@ -332,7 +339,7 @@ class ArgParseDirector(ArgumentParser):
                 config_file.write("# do not change dictionary name 'config_required'\n")
                 config_file.write("config_required = {\n")
                 for k in self.__reqrd_args_d:
-                    config_file.write(f"{prefix}\'{k}\' : {' '*(maxlen-len(k)-len(prefix))}'{self.__reqrd_args_d[k]} VALUE NEEDED HERE',\n")
+                    config_file.write(f"{prefix}\'{k}\': {' '*(keylen-len(k)-len(prefix))}'{self.__reqrd_args_d[k]} VALUE NEEDED HERE',\n")
                 config_file.write("}\n")
 
 

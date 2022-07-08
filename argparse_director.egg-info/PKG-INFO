@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: argparse-director
-Version: 0.4.1
-Summary: Simpler, more powerful drop-in replacement for argparser adding configuration files containing executable code, hidden and grouped arguments
+Version: 0.4.2
+Summary: Simpler, yet powerful drop-in replacement for argparser adding configuration files containing executable code, hidden and grouped arguments
 Home-page: https://github.com/sneiman/argparse_director
 Author: Seth Neiman
 Author-email: seth@duckpapa.com

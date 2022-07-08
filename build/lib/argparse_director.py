@@ -311,6 +311,9 @@ class ArgParseDirector(ArgumentParser):
                 config_file.write(f"# change values to override defaults, add keys to create arguments that will be returned from parse_args() but not available from command line\n")
                 config_file.write("# do not change dictionary name 'config_args'\n")
                 config_file.write("config_args = {\n")
+
+                # history prolog
+                config_file.write(f"{prefix}net_history:{' '*(maxlen-len('net_history')-len(prefix))}")
                 for k in self.__def_dict:
                     v               = f"\'{self.__def_dict[k]}\'" if type(self.__def_dict[k])==str else None if type(self.__def_dict[k]) is type(None) else self.__def_dict[k]
                     config_file.write(f"{prefix}\'{k}\' : {' '*(maxlen-len(k)-len(prefix))}{v},\n")
