@@ -1,3 +1,4 @@
+LICENSE
 README.md
 argparse_director.py
 setup.py
