@@ -5,6 +5,8 @@ Summary: Simpler, yet powerful drop-in replacement for argparser adding configur
 Home-page: https://github.com/sneiman/argparse_director
 Author: Seth Neiman
 Author-email: seth@duckpapa.com
+License: UNKNOWN
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -765,6 +767,8 @@ personal =  Namespace(age=25, name='jane doe', occupation='vp, marketing')
 work     =  Namespace(bugs='wrong colors', new_module='security', occupation='vp, marketing')
 ```
 The groups defined by `add_argument()` and the config file are **merged**. The config file just adds 'age' to the 'personal' group, while 'work' has been completely restated in the config file. Both approaches work fine. Note that 'occupation' is a member of both groups: it was added to 'personal' in `add_argument()` and to 'work' in the config file.
+
+
 
 
 

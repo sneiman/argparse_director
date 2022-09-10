@@ -107,6 +107,12 @@ class ArgParseDirector(ArgumentParser):
                     self.__reqrd_args_d[a]   = argtype
 
                 else:
+                    # actions 'store_true' and 'store_false' have default defaults - enforce here, as setting to None breaks them
+                    if kwargs.get('action', None)=='store_true':
+                        default     = False
+                    elif kwargs.get('action', None)=='store_false':
+                        default     = True
+                        
                     v       = default if argtype is None else argtype(default) if default is not None else None
                     self.__def_dict[self._remove_prefix(a)]  = v 
 
