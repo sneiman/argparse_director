@@ -112,7 +112,7 @@ class ArgParseDirector(ArgumentParser):
                         default     = False
                     elif kwargs.get('action', None)=='store_false':
                         default     = True
-                        
+
                     v       = default if argtype is None else argtype(default) if default is not None else None
                     self.__def_dict[self._remove_prefix(a)]  = v 
 
